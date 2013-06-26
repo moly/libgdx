@@ -208,9 +208,8 @@ public class PrismaticJoint extends Joint {
 	 * 
 	 * pool.pushVec2(3); return translation; }
 	 * 
-	 * /** Get the current joint translation speed, usually in meters per second.
-	 * 
-	 * @return */
+	
+	/** Get the current joint translation speed, usually in meters per second. */
 	public float getJointSpeed () {
 		Body bA = m_bodyA;
 		Body bB = m_bodyB;
@@ -255,9 +254,7 @@ public class PrismaticJoint extends Joint {
 		return speed;
 	}
 
-	/** Is the joint limit enabled?
-	 * 
-	 * @return */
+	/** Is the joint limit enabled? */
 	public boolean isLimitEnabled () {
 		return m_enableLimit;
 	}
@@ -274,16 +271,12 @@ public class PrismaticJoint extends Joint {
 		}
 	}
 
-	/** Get the lower joint limit, usually in meters.
-	 * 
-	 * @return */
+	/** Get the lower joint limit, usually in meters. */
 	public float getLowerLimit () {
 		return m_lowerTranslation;
 	}
 
-	/** Get the upper joint limit, usually in meters.
-	 * 
-	 * @return */
+	/** Get the upper joint limit, usually in meters. */
 	public float getUpperLimit () {
 		return m_upperTranslation;
 	}
@@ -303,9 +296,7 @@ public class PrismaticJoint extends Joint {
 		}
 	}
 
-	/** Is the joint motor enabled?
-	 * 
-	 * @return */
+	/** Is the joint motor enabled? */
 	public boolean isMotorEnabled () {
 		return m_enableMotor;
 	}
@@ -328,9 +319,7 @@ public class PrismaticJoint extends Joint {
 		m_motorSpeed = speed;
 	}
 
-	/** Get the motor speed, usually in meters per second.
-	 * 
-	 * @return */
+	/** Get the motor speed, usually in meters per second. */
 	public float getMotorSpeed () {
 		return m_motorSpeed;
 	}
@@ -346,8 +335,7 @@ public class PrismaticJoint extends Joint {
 
 	/** Get the current motor force, usually in N.
 	 * 
-	 * @param inv_dt
-	 * @return */
+	 * @param inv_dt */
 	public float getMotorForce (float inv_dt) {
 		return m_motorImpulse * inv_dt;
 	}

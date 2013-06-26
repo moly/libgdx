@@ -40,8 +40,7 @@ public interface IViewportTransform {
 	public void setYFlip (boolean yFlip);
 
 	/** This is the half-width and half-height. This should be the actual half-width and half-height, not anything transformed or
-	 * scaled. Not a copy.
-	 * @return */
+	 * scaled. Not a copy. */
 	public Vec2 getExtents ();
 
 	/** This sets the half-width and half-height. This should be the actual half-width and half-height, not anything transformed or
@@ -55,8 +54,7 @@ public interface IViewportTransform {
 	 * @param argHalfHeight */
 	public void setExtents (float argHalfWidth, float argHalfHeight);
 
-	/** center of the viewport. Not a copy.
-	 * @return */
+	/** center of the viewport. Not a copy. */
 	public Vec2 getCenter ();
 
 	/** sets the center of the viewport.
@@ -75,13 +73,13 @@ public interface IViewportTransform {
 	public void setCamera (float x, float y, float scale);
 
 	/** Transforms the given directional vector by the viewport transform (not positional)
-	 * @param argVec
-	 * @param argOut */
+	 * @param argWorld
+	 * @param argScreen */
 	public void getWorldVectorToScreen (Vec2 argWorld, Vec2 argScreen);
 
 	/** Transforms the given directional screen vector back to the world direction.
-	 * @param argVec
-	 * @param argOut */
+	 * @param argScreen
+	 * @param argWorld */
 	public void getScreenVectorToWorld (Vec2 argScreen, Vec2 argWorld);
 
 	/** takes the world coordinate (argWorld) puts the corresponding screen coordinate in argScreen. It should be safe to give the

@@ -39,7 +39,7 @@ public class Settings {
 	public static final int CONTACT_STACK_INIT_SIZE = 10;
 	public static final boolean SINCOS_LUT_ENABLED = true;
 	/** smaller the precision, the larger the table. If a small table is used (eg, precision is .006 or greater), make sure you set
-	 * the table to lerp it's results. Accuracy chart is in the MathUtils source. Or, run the tests yourself in {@link SinCosTest}
+	 * the table to lerp it's results. Accuracy chart is in the MathUtils source.
 	 * .</br> </br> Good lerp precision values:
 	 * <ul>
 	 * <li>.0092</li>
@@ -62,8 +62,7 @@ public class Settings {
 	public static final float SINCOS_LUT_PRECISION = .00011f;
 	public static final int SINCOS_LUT_LENGTH = (int)Math.ceil(Math.PI * 2 / SINCOS_LUT_PRECISION);
 	/** Use if the table's precision is large (eg .006 or greater). Although it is more expensive, it greatly increases accuracy.
-	 * Look in the MathUtils source for some test results on the accuracy and speed of lerp vs non lerp. Or, run the tests yourself
-	 * in {@link SinCosTest}. */
+	 * Look in the MathUtils source for some test results on the accuracy and speed of lerp vs non lerp. */
 	public static final boolean SINCOS_LUT_LERP = false;
 
 	// Collision
@@ -141,8 +140,7 @@ public class Settings {
 	/** Friction mixing law. Feel free to customize this. TODO djm: add customization
 	 * 
 	 * @param friction1
-	 * @param friction2
-	 * @return */
+	 * @param friction2 */
 	public static final float mixFriction (float friction1, float friction2) {
 		return MathUtils.sqrt(friction1 * friction2);
 	}
@@ -150,8 +148,7 @@ public class Settings {
 	/** Restitution mixing law. Feel free to customize this. TODO djm: add customization
 	 * 
 	 * @param restitution1
-	 * @param restitution2
-	 * @return */
+	 * @param restitution2 */
 	public static final float mixRestitution (float restitution1, float restitution2) {
 		return restitution1 > restitution2 ? restitution1 : restitution2;
 	}

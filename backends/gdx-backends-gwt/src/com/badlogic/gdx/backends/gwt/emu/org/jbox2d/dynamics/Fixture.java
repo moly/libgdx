@@ -83,17 +83,14 @@ public class Fixture {
 	}
 
 	/** Get the child shape. You can modify the child shape, however you should not change the number of vertices because this will
-	 * crash some collision caching mechanisms.
-	 * 
-	 * @return */
+	 * crash some collision caching mechanisms. */
 	public Shape getShape () {
 		return m_shape;
 	}
 
 	/** Is this fixture a sensor (non-solid)?
 	 * 
-	 * @return the true if the shape is a sensor.
-	 * @return */
+	 * @return the true if the shape is a sensor. */
 	public boolean isSensor () {
 		return m_isSensor;
 	}
@@ -118,9 +115,7 @@ public class Fixture {
 		refilter();
 	}
 
-	/** Get the contact filtering data.
-	 * 
-	 * @return */
+	/** Get the contact filtering data. */
 	public Filter getFilterData () {
 		return m_filter;
 	}
@@ -158,16 +153,14 @@ public class Fixture {
 
 	/** Get the parent body of this fixture. This is NULL if the fixture is not attached.
 	 * 
-	 * @return the parent body.
-	 * @return */
+	 * @return the parent body. */
 	public Body getBody () {
 		return m_body;
 	}
 
 	/** Get the next fixture in the parent body's fixture list.
 	 * 
-	 * @return the next shape.
-	 * @return */
+	 * @return the next shape. */
 	public Fixture getNext () {
 		return m_next;
 	}
@@ -181,9 +174,7 @@ public class Fixture {
 		return m_density;
 	}
 
-	/** Get the user data that was assigned in the fixture definition. Use this to store your application specific data.
-	 * 
-	 * @return */
+	/** Get the user data that was assigned in the fixture definition. Use this to store your application specific data. */
 	public Object getUserData () {
 		return m_userData;
 	}
@@ -197,8 +188,7 @@ public class Fixture {
 
 	/** Test a point for containment in this fixture. This only works for convex shapes.
 	 * 
-	 * @param p a point in world coordinates.
-	 * @return */
+	 * @param p a point in world coordinates. */
 	public boolean testPoint (final Vec2 p) {
 		return m_shape.testPoint(m_body.m_xf, p);
 	}
@@ -207,23 +197,18 @@ public class Fixture {
 	 * 
 	 * @param output the ray-cast results.
 	 * @param input the ray-cast input parameters.
-	 * @param output
-	 * @param input */
+	 * @param childIndex */
 	public boolean raycast (RayCastOutput output, RayCastInput input, int childIndex) {
 		return m_shape.raycast(output, input, m_body.m_xf, childIndex);
 	}
 
 	/** Get the mass data for this fixture. The mass data is based on the density and the shape. The rotational inertia is about the
-	 * shape's origin.
-	 * 
-	 * @return */
+	 * shape's origin. */
 	public void getMassData (MassData massData) {
 		m_shape.computeMass(massData, m_density);
 	}
 
-	/** Get the coefficient of friction.
-	 * 
-	 * @return */
+	/** Get the coefficient of friction. */
 	public float getFriction () {
 		return m_friction;
 	}
@@ -235,9 +220,7 @@ public class Fixture {
 		m_friction = friction;
 	}
 
-	/** Get the coefficient of restitution.
-	 * 
-	 * @return */
+	/** Get the coefficient of restitution. */
 	public float getRestitution () {
 		return m_restitution;
 	}
@@ -250,9 +233,7 @@ public class Fixture {
 	}
 
 	/** Get the fixture's AABB. This AABB may be enlarge and/or stale. If you need a more accurate AABB, compute it using the shape
-	 * and the body transform.
-	 * 
-	 * @return */
+	 * and the body transform. */
 	public AABB getAABB (int childIndex) {
 		assert (childIndex >= 0 && childIndex < m_proxyCount);
 		return m_proxies[childIndex].aabb;
@@ -361,8 +342,8 @@ public class Fixture {
 	/** Internal method
 	 * 
 	 * @param broadPhase
-	 * @param xf1
-	 * @param xf2 */
+	 * @param transform1
+	 * @param transform2 */
 	protected void synchronize (BroadPhase broadPhase, final Transform transform1, final Transform transform2) {
 		if (m_proxyCount == 0) {
 			return;

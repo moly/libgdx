@@ -29,7 +29,7 @@ public class Fixture {
 	protected Object userData;
 
 	/** Constructs a new fixture
-	 * @param addr the address of the fixture */
+	 * @param fixture the address of the fixture */
 	protected Fixture (Body body, org.jbox2d.dynamics.Fixture fixture) {
 		this.body = body;
 		this.fixture = fixture;

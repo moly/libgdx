@@ -93,8 +93,7 @@ public class Mat33 implements Serializable {
 
 	/** Solve A * x = b, where b is a column vector. This is more efficient than computing the inverse in one-shot cases.
 	 * 
-	 * @param b
-	 * @return */
+	 * @param b */
 	public final Vec2 solve22 (Vec2 b) {
 		Vec2 x = new Vec2();
 		solve22ToOut(b, x);
@@ -103,8 +102,7 @@ public class Mat33 implements Serializable {
 
 	/** Solve A * x = b, where b is a column vector. This is more efficient than computing the inverse in one-shot cases.
 	 * 
-	 * @param b
-	 * @return */
+	 * @param b */
 	public final void solve22ToOut (Vec2 b, Vec2 out) {
 		final float a11 = ex.x, a12 = ey.x, a21 = ex.y, a22 = ey.y;
 		float det = a11 * a22 - a12 * a21;
@@ -118,8 +116,7 @@ public class Mat33 implements Serializable {
 	// djm pooling from below
 	/** Solve A * x = b, where b is a column vector. This is more efficient than computing the inverse in one-shot cases.
 	 * 
-	 * @param b
-	 * @return */
+	 * @param b */
 	public final Vec3 solve33 (Vec3 b) {
 		Vec3 x = new Vec3();
 		solve33ToOut(b, x);

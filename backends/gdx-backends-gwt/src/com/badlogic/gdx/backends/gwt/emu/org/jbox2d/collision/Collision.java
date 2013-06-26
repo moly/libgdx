@@ -38,7 +38,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.pooling.IWorldPool;
 
 /** Functions used for computing contact points, distance queries, and TOI queries. Collision methods are non-static for pooling
- * speed, retrieve a collision object from the {@link SingletonPool}. Should not be finalructed.
+ * speed.
  * 
  * @author Daniel Murphy */
 public class Collision {
@@ -66,7 +66,7 @@ public class Collision {
 	 * @param shapeB
 	 * @param xfA
 	 * @param xfB
-	 * @return */
+	 * @return whether or not the two shapes overlap*/
 	public final boolean testOverlap (Shape shapeA, int indexA, Shape shapeB, int indexB, Transform xfA, Transform xfB) {
 		input.proxyA.set(shapeA, indexA);
 		input.proxyB.set(shapeB, indexB);
@@ -131,7 +131,7 @@ public class Collision {
 	 * @param vIn
 	 * @param normal
 	 * @param offset
-	 * @return */
+	 * @return numOut */
 	public static final int clipSegmentToLine (final ClipVertex[] vOut, final ClipVertex[] vIn, final Vec2 normal, float offset,
 		int vertexIndexA) {
 
@@ -495,12 +495,11 @@ public class Collision {
 
 	/** Find the max separation between poly1 and poly2 using edge normals from poly1.
 	 * 
-	 * @param edgeIndex
+	 * @param results
 	 * @param poly1
 	 * @param xf1
 	 * @param poly2
-	 * @param xf2
-	 * @return */
+	 * @param xf2 */
 	public final void findMaxSeparation (EdgeResults results, final PolygonShape poly1, final Transform xf1,
 		final PolygonShape poly2, final Transform xf2) {
 		int count1 = poly1.m_count;
@@ -655,10 +654,10 @@ public class Collision {
 	/** Compute the collision manifold between two polygons.
 	 * 
 	 * @param manifold
-	 * @param polygon1
-	 * @param xf1
-	 * @param polygon2
-	 * @param xf2 */
+	 * @param polyA
+	 * @param xfA
+	 * @param polyB
+	 * @param xfB */
 	public final void collidePolygons (Manifold manifold, final PolygonShape polyA, final Transform xfA, final PolygonShape polyB,
 		final Transform xfB) {
 		// Find edge normal of max separation on A - return if separating axis is found
@@ -930,6 +929,7 @@ public class Collision {
 
 	/** Java-specific class for returning edge results */
 	private static class EdgeResults {
+		public EdgeResults () {}
 		public float separation;
 		public int edgeIndex;
 	}

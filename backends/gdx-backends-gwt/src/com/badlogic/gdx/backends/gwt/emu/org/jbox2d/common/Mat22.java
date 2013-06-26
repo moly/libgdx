@@ -118,9 +118,7 @@ public class Mat22 implements Serializable {
 		ey.y = 0.0f;
 	}
 
-	/** Extract the angle from this matrix (assumed to be a rotation matrix).
-	 * 
-	 * @return */
+	/** Extract the angle from this matrix (assumed to be a rotation matrix). */
 	public final float getAngle () {
 		return MathUtils.atan2(ex.y, ex.x);
 	}
@@ -225,8 +223,7 @@ public class Mat22 implements Serializable {
 
 	/** Multiply another matrix by this one (this one on left). djm optimized
 	 * 
-	 * @param R
-	 * @return */
+	 * @param R */
 	public final Mat22 mul (final Mat22 R) {
 		/*
 		 * Mat22 C = new Mat22();C.set(this.mul(R.ex), this.mul(R.ey));return C;
@@ -267,8 +264,7 @@ public class Mat22 implements Serializable {
 
 	/** Multiply another matrix by the transpose of this one (transpose of this one on left). djm: optimized
 	 * 
-	 * @param B
-	 * @return */
+	 * @param B */
 	public final Mat22 mulTrans (final Mat22 B) {
 		/*
 		 * Vec2 c1 = new Vec2(Vec2.dot(this.ex, B.ex), Vec2.dot(this.ey, B.ex)); Vec2 c2 = new Vec2(Vec2.dot(this.ex, B.ey),
@@ -315,8 +311,7 @@ public class Mat22 implements Serializable {
 
 	/** Multiply a vector by the transpose of this matrix.
 	 * 
-	 * @param v
-	 * @return */
+	 * @param v */
 	public final Vec2 mulTrans (final Vec2 v) {
 		// return new Vec2(Vec2.dot(v, ex), Vec2.dot(v, col2));
 		return new Vec2((v.x * ex.x + v.y * ex.y), (v.x * ey.x + v.y * ey.y));
@@ -334,8 +329,7 @@ public class Mat22 implements Serializable {
 
 	/** Add this matrix to B, return the result.
 	 * 
-	 * @param B
-	 * @return */
+	 * @param B */
 	public final Mat22 add (final Mat22 B) {
 		// return new Mat22(ex.add(B.ex), col2.add(B.ey));
 		Mat22 m = new Mat22();
@@ -348,8 +342,7 @@ public class Mat22 implements Serializable {
 
 	/** Add B to this matrix locally.
 	 * 
-	 * @param B
-	 * @return */
+	 * @param B */
 	public final Mat22 addLocal (final Mat22 B) {
 		// ex.addLocal(B.ex);
 		// col2.addLocal(B.ey);

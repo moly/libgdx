@@ -83,8 +83,7 @@ public class DynamicTree {
 	/** Create a proxy. Provide a tight fitting AABB and a userData pointer.
 	 * 
 	 * @param aabb
-	 * @param userData
-	 * @return */
+	 * @param userData */
 	public final int createProxy (final AABB aabb, Object userData) {
 		int proxyId = allocateNode();
 
@@ -172,7 +171,7 @@ public class DynamicTree {
 	/** Query an AABB for overlapping proxies. The callback class is called for each proxy that overlaps the supplied AABB.
 	 * 
 	 * @param callback
-	 * @param araabbgAABB */
+	 * @param aabb */
 	public final void query (TreeCallback callback, AABB aabb) {
 		intStack.reset();
 		intStack.push(m_root);
@@ -323,9 +322,7 @@ public class DynamicTree {
 		assert (m_nodeCount + freeCount == m_nodeCapacity);
 	}
 
-	/** Compute the height of the binary tree in O(N) time. Should not be called often.
-	 * 
-	 * @return */
+	/** Compute the height of the binary tree in O(N) time. Should not be called often. */
 	public int getHeight () {
 		if (m_root == NULL_NODE) {
 			return 0;
@@ -333,9 +330,7 @@ public class DynamicTree {
 		return m_nodes[m_root].height;
 	}
 
-	/** Get the maximum balance of an node in the tree. The balance is the difference in height of the two children of a node.
-	 * 
-	 * @return */
+	/** Get the maximum balance of an node in the tree. The balance is the difference in height of the two children of a node. */
 	public int getMaxBalance () {
 		int maxBalance = 0;
 		for (int i = 0; i < m_nodeCapacity; ++i) {
@@ -355,9 +350,7 @@ public class DynamicTree {
 		return maxBalance;
 	}
 
-	/** Get the ratio of the sum of the node areas to the root area.
-	 * 
-	 * @return */
+	/** Get the ratio of the sum of the node areas to the root area. */
 	public float getAreaRatio () {
 		if (m_root == NULL_NODE) {
 			return 0.0f;
@@ -478,7 +471,7 @@ public class DynamicTree {
 
 	/** returns a node to the pool
 	 * 
-	 * @param argNode */
+	 * @param nodeId */
 	private final void freeNode (int nodeId) {
 		assert (nodeId != NULL_NODE);
 		assert (0 < m_nodeCount);

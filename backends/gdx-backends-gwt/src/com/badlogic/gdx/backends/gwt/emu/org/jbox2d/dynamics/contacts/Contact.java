@@ -140,9 +140,7 @@ public abstract class Contact {
 		worldManifold.initialize(m_manifold, bodyA.getTransform(), shapeA.m_radius, bodyB.getTransform(), shapeB.m_radius);
 	}
 
-	/** Is this contact touching
-	 * 
-	 * @return */
+	/** Is this contact touching */
 	public boolean isTouching () {
 		return (m_flags & TOUCHING_FLAG) == TOUCHING_FLAG;
 	}
@@ -159,23 +157,17 @@ public abstract class Contact {
 		}
 	}
 
-	/** Has this contact been disabled?
-	 * 
-	 * @return */
+	/** Has this contact been disabled? */
 	public boolean isEnabled () {
 		return (m_flags & ENABLED_FLAG) == ENABLED_FLAG;
 	}
 
-	/** Get the next contact in the world's contact list.
-	 * 
-	 * @return */
+	/** Get the next contact in the world's contact list. */
 	public Contact getNext () {
 		return m_next;
 	}
 
-	/** Get the first fixture in this contact.
-	 * 
-	 * @return */
+	/** Get the first fixture in this contact. */
 	public Fixture getFixtureA () {
 		return m_fixtureA;
 	}
@@ -184,9 +176,7 @@ public abstract class Contact {
 		return m_indexA;
 	}
 
-	/** Get the second fixture in this contact.
-	 * 
-	 * @return */
+	/** Get the second fixture in this contact. */
 	public Fixture getFixtureB () {
 		return m_fixtureB;
 	}
@@ -321,8 +311,7 @@ public abstract class Contact {
 	 * ice.
 	 * 
 	 * @param friction1
-	 * @param friction2
-	 * @return */
+	 * @param friction2 */
 	public static final float mixFriction (float friction1, float friction2) {
 		return MathUtils.sqrt(friction1 * friction2);
 	}
@@ -331,8 +320,7 @@ public abstract class Contact {
 	 * on anything.
 	 * 
 	 * @param restitution1
-	 * @param restitution2
-	 * @return */
+	 * @param restitution2 */
 	public static final float mixRestitution (float restitution1, float restitution2) {
 		return restitution1 > restitution2 ? restitution1 : restitution2;
 	}

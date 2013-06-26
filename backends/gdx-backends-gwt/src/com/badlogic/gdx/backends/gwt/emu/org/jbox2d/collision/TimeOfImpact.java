@@ -34,8 +34,7 @@ import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.pooling.IWorldPool;
 
-/** Class used for computing the time of impact. This class should not be constructed usually, just retrieve from the
- * {@link SingletonPool#getTOI()}.
+/** Class used for computing the time of impact. This class should not be constructed usually..
  * 
  * @author daniel */
 public class TimeOfImpact {

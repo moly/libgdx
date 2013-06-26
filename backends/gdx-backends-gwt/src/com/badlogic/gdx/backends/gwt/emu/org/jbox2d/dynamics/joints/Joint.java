@@ -119,9 +119,7 @@ public abstract class Joint {
 // m_localCenterB = new Vec2();
 	}
 
-	/** get the type of the concrete joint.
-	 * 
-	 * @return */
+	/** get the type of the concrete joint. */
 	public JointType getType () {
 		return m_type;
 	}
@@ -131,33 +129,25 @@ public abstract class Joint {
 		return m_bodyA;
 	}
 
-	/** get the second body attached to this joint.
-	 * 
-	 * @return */
+	/** get the second body attached to this joint. */
 	public Body getBodyB () {
 		return m_bodyB;
 	}
 
-	/** get the anchor point on bodyA in world coordinates.
-	 * 
-	 * @return */
+	/** get the anchor point on bodyA in world coordinates. */
 	public abstract void getAnchorA (Vec2 argOut);
 
-	/** get the anchor point on bodyB in world coordinates.
-	 * 
-	 * @return */
+	/** get the anchor point on bodyB in world coordinates. */
 	public abstract void getAnchorB (Vec2 argOut);
 
 	/** get the reaction force on body2 at the joint anchor in Newtons.
 	 * 
-	 * @param inv_dt
-	 * @return */
+	 * @param inv_dt */
 	public abstract void getReactionForce (float inv_dt, Vec2 argOut);
 
 	/** get the reaction torque on body2 in N*m.
 	 * 
-	 * @param inv_dt
-	 * @return */
+	 * @param inv_dt */
 	public abstract float getReactionTorque (float inv_dt);
 
 	/** get the next joint the world joint list. */
@@ -182,9 +172,7 @@ public abstract class Joint {
 		return m_collideConnected;
 	}
 
-	/** Short-cut function to determine if either body is inactive.
-	 * 
-	 * @return */
+	/** Short-cut function to determine if either body is inactive. */
 	public boolean IsActive () {
 		return m_bodyA.isActive() && m_bodyB.isActive();
 	}
@@ -195,8 +183,7 @@ public abstract class Joint {
 
 	/** This returns true if the position errors are within tolerance.
 	 * 
-	 * @param baumgarte
-	 * @return */
+	 * @param data */
 	public abstract boolean solvePositionConstraints (SolverData data);
 
 	/** Override to handle destruction of joint */

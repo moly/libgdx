@@ -120,7 +120,7 @@ public class World {
 	/** Construct a world object.
 	 * 
 	 * @param gravity the world gravity vector.
-	 * @param doSleep improve performance by not simulating inactive bodies. */
+	 * @param argPool */
 	public World (Vec2 gravity, IWorldPool argPool) {
 		pool = argPool;
 		m_destructionListener = null;
@@ -263,8 +263,7 @@ public class World {
 	/** create a rigid body given a definition. No reference to the definition is retained.
 	 * 
 	 * @warning This function is locked during callbacks.
-	 * @param def
-	 * @return */
+	 * @param def */
 	public Body createBody (BodyDef def) {
 		assert (isLocked() == false);
 		if (isLocked()) {
@@ -361,8 +360,7 @@ public class World {
 	 * to cease colliding.
 	 * 
 	 * @warning This function is locked during callbacks.
-	 * @param def
-	 * @return */
+	 * @param def */
 	public Joint createJoint (JointDef def) {
 		assert (isLocked() == false);
 		if (isLocked()) {
@@ -425,68 +423,68 @@ public class World {
 	 * 
 	 * @warning This function is locked during callbacks.
 	 * @param joint */
-	public void destroyJoint (Joint j) {
+	public void destroyJoint (Joint joint) {
 		assert (isLocked() == false);
 		if (isLocked()) {
 			return;
 		}
 
-		boolean collideConnected = j.m_collideConnected;
+		boolean collideConnected = joint.m_collideConnected;
 
 		// Remove from the doubly linked list.
-		if (j.m_prev != null) {
-			j.m_prev.m_next = j.m_next;
+		if (joint.m_prev != null) {
+			joint.m_prev.m_next = joint.m_next;
 		}
 
-		if (j.m_next != null) {
-			j.m_next.m_prev = j.m_prev;
+		if (joint.m_next != null) {
+			joint.m_next.m_prev = joint.m_prev;
 		}
 
-		if (j == m_jointList) {
-			m_jointList = j.m_next;
+		if (joint == m_jointList) {
+			m_jointList = joint.m_next;
 		}
 
 		// Disconnect from island graph.
-		Body bodyA = j.m_bodyA;
-		Body bodyB = j.m_bodyB;
+		Body bodyA = joint.m_bodyA;
+		Body bodyB = joint.m_bodyB;
 
 		// Wake up connected bodies.
 		bodyA.setAwake(true);
 		bodyB.setAwake(true);
 
 		// Remove from body 1.
-		if (j.m_edgeA.prev != null) {
-			j.m_edgeA.prev.next = j.m_edgeA.next;
+		if (joint.m_edgeA.prev != null) {
+			joint.m_edgeA.prev.next = joint.m_edgeA.next;
 		}
 
-		if (j.m_edgeA.next != null) {
-			j.m_edgeA.next.prev = j.m_edgeA.prev;
+		if (joint.m_edgeA.next != null) {
+			joint.m_edgeA.next.prev = joint.m_edgeA.prev;
 		}
 
-		if (j.m_edgeA == bodyA.m_jointList) {
-			bodyA.m_jointList = j.m_edgeA.next;
+		if (joint.m_edgeA == bodyA.m_jointList) {
+			bodyA.m_jointList = joint.m_edgeA.next;
 		}
 
-		j.m_edgeA.prev = null;
-		j.m_edgeA.next = null;
+		joint.m_edgeA.prev = null;
+		joint.m_edgeA.next = null;
 
 		// Remove from body 2
-		if (j.m_edgeB.prev != null) {
-			j.m_edgeB.prev.next = j.m_edgeB.next;
+		if (joint.m_edgeB.prev != null) {
+			joint.m_edgeB.prev.next = joint.m_edgeB.next;
 		}
 
-		if (j.m_edgeB.next != null) {
-			j.m_edgeB.next.prev = j.m_edgeB.prev;
+		if (joint.m_edgeB.next != null) {
+			joint.m_edgeB.next.prev = joint.m_edgeB.prev;
 		}
 
-		if (j.m_edgeB == bodyB.m_jointList) {
-			bodyB.m_jointList = j.m_edgeB.next;
+		if (joint.m_edgeB == bodyB.m_jointList) {
+			bodyB.m_jointList = joint.m_edgeB.next;
 		}
 
-		j.m_edgeB.prev = null;
-		j.m_edgeB.next = null;
+		joint.m_edgeB.prev = null;
+		joint.m_edgeB.next = null;
 
-		Joint.destroy(j);
+		Joint.destroy(joint);
 
 		assert (m_jointCount > 0);
 		--m_jointCount;
@@ -513,7 +511,7 @@ public class World {
 
 	/** Take a time step. This performs collision detection, integration, and constraint solution.
 	 * 
-	 * @param timeStep the amount of time to simulate, this should not vary.
+	 * @param dt the amount of time to simulate, this should not vary.
 	 * @param velocityIterations for the velocity constraint solver.
 	 * @param positionIterations for the position constraint solver. */
 	public void step (float dt, int velocityIterations, int positionIterations) {
@@ -577,7 +575,7 @@ public class World {
 	/** Call this after you are done with time steps to clear the forces. You normally call this after each call to Step, unless you
 	 * are performing sub-steps. By default, forces will be automatically cleared, so you don't need to call this function.
 	 * 
-	 * @see setAutoClearForces */
+	 * @see #setAutoClearForces(boolean) */
 	public void clearForces () {
 		for (Body body = m_bodyList; body != null; body = body.getNext()) {
 			body.m_force.setZero();
@@ -766,51 +764,37 @@ public class World {
 		return m_continuousPhysics;
 	}
 
-	/** Get the number of broad-phase proxies.
-	 * 
-	 * @return */
+	/** Get the number of broad-phase proxies. */
 	public int getProxyCount () {
 		return m_contactManager.m_broadPhase.getProxyCount();
 	}
 
-	/** Get the number of bodies.
-	 * 
-	 * @return */
+	/** Get the number of bodies. */
 	public int getBodyCount () {
 		return m_bodyCount;
 	}
 
-	/** Get the number of joints.
-	 * 
-	 * @return */
+	/** Get the number of joints. */
 	public int getJointCount () {
 		return m_jointCount;
 	}
 
-	/** Get the number of contacts (each may have 0 or more contact points).
-	 * 
-	 * @return */
+	/** Get the number of contacts (each may have 0 or more contact points). */
 	public int getContactCount () {
 		return m_contactManager.m_contactCount;
 	}
 
-	/** Gets the height of the dynamic tree
-	 * 
-	 * @return */
+	/** Gets the height of the dynamic tree */
 	public int getTreeHeight () {
 		return m_contactManager.m_broadPhase.getTreeHeight();
 	}
 
-	/** Gets the balance of the dynamic tree
-	 * 
-	 * @return */
+	/** Gets the balance of the dynamic tree */
 	public int getTreeBalance () {
 		return m_contactManager.m_broadPhase.getTreeBalance();
 	}
 
-	/** Gets the quality of the dynamic tree
-	 * 
-	 * @return */
+	/** Gets the quality of the dynamic tree */
 	public float getTreeQuality () {
 		return m_contactManager.m_broadPhase.getTreeQuality();
 	}
@@ -822,16 +806,12 @@ public class World {
 		m_gravity.set(gravity);
 	}
 
-	/** Get the global gravity vector.
-	 * 
-	 * @return */
+	/** Get the global gravity vector. */
 	public Vec2 getGravity () {
 		return m_gravity;
 	}
 
-	/** Is the world locked (in the middle of a time step).
-	 * 
-	 * @return */
+	/** Is the world locked (in the middle of a time step). */
 	public boolean isLocked () {
 		return (m_flags & LOCKED) == LOCKED;
 	}
@@ -847,16 +827,12 @@ public class World {
 		}
 	}
 
-	/** Get the flag that controls automatic clearing of forces after each time step.
-	 * 
-	 * @return */
+	/** Get the flag that controls automatic clearing of forces after each time step. */
 	public boolean getAutoClearForces () {
 		return (m_flags & CLEAR_FORCES) == CLEAR_FORCES;
 	}
 
-	/** Get the contact manager for testing purposes
-	 * 
-	 * @return */
+	/** Get the contact manager for testing purposes */
 	public ContactManager getContactManager () {
 		return m_contactManager;
 	}

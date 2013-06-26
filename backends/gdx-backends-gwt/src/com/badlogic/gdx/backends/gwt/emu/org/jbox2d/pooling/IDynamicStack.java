@@ -30,8 +30,7 @@ package org.jbox2d.pooling;
  * @param <E> */
 public interface IDynamicStack<E> {
 
-	/** Pops an item off the stack
-	 * @return */
+	/** Pops an item off the stack */
 	public E pop ();
 
 	/** Pushes an item back on the stack

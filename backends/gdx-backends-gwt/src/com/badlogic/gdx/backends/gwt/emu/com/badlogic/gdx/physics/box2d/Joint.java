@@ -29,7 +29,7 @@ public abstract class Joint {
 	JointEdge jointEdgeB;
 
 	/** Constructs a new joint
-	 * @param addr the address of the joint */
+	 * @param joint the address of the joint */
 	protected Joint (World world, org.jbox2d.dynamics.joints.Joint joint) {
 		this.world = world;
 		this.joint = joint;

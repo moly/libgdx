@@ -35,7 +35,7 @@ public class Body {
 
 	/** Constructs a new body with the given address
 	 * @param world the world
-	 * @param addr the address */
+	 * @param body the address */
 	protected Body (World world, org.jbox2d.dynamics.Body body) {
 		this.world = world;
 		this.body = body;

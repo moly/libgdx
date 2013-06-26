@@ -61,31 +61,26 @@ public class CircleShape extends Shape {
 
 	/** Get the supporting vertex index in the given direction.
 	 * 
-	 * @param d
-	 * @return */
+	 * @param d */
 	public final int getSupport (final Vec2 d) {
 		return 0;
 	}
 
 	/** Get the supporting vertex in the given direction.
 	 * 
-	 * @param d
-	 * @return */
+	 * @param d */
 	public final Vec2 getSupportVertex (final Vec2 d) {
 		return m_p;
 	}
 
-	/** Get the vertex count.
-	 * 
-	 * @return */
+	/** Get the vertex count. */
 	public final int getVertexCount () {
 		return 1;
 	}
 
 	/** Get a vertex by index.
 	 * 
-	 * @param index
-	 * @return */
+	 * @param index */
 	public final Vec2 getVertex (final int index) {
 		assert (index == 0);
 		return m_p;

@@ -16,11 +16,16 @@
 
 package com.badlogic.gdx.backends.gwt.soundmanager2;
 
-public class SoundManager {
-	public interface SoundManagerCallback {
-		public void loaded ();
+import com.google.gwt.core.client.JavaScriptObject;
 
-		public void error ();
+public class SoundManager {
+	
+	public interface SoundManagerCallback {
+		public void loaded (SMSound sound);
+
+		public void error (SMSound sound);
+		
+		public void onfinish (SMSound sound);
 	}
 
 	public static final native SoundManager getInstance () /*-{
@@ -55,8 +60,11 @@ public class SoundManager {
 		return $wnd.soundManager.flashVersion;
 	}-*/;
 
-	public static native SMSound createSound (String id, String url) /*-{
-		return $wnd.soundManager.createSound(id, url);
+	/** Creates a new sound object from the supplied url.
+	 * @param url the location of the sound file.
+	 * @return the created sound object. */
+	public static native JavaScriptObject createSound (String url) /*-{
+		return $wnd.soundManager.createSound({url: url});
 	}-*/;
 
 	public static native void reboot () /*-{

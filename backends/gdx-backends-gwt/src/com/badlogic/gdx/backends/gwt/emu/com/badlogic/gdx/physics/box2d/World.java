@@ -259,15 +259,15 @@ public final class World implements Disposable {
 	public boolean getAutoClearForces () {
 		return world.getAutoClearForces();
 	}
-
+	
+	AABB aabb = new AABB();
+	
 	/** Query the world for all fixtures that potentially overlap the provided AABB.
 	 * @param callback a user implemented callback class.
 	 * @param lowerX the x coordinate of the lower left corner
 	 * @param lowerY the y coordinate of the lower left corner
 	 * @param upperX the x coordinate of the upper right corner
 	 * @param upperY the y coordinate of the upper right corner */
-	AABB aabb = new AABB();
-
 	public void QueryAABB (final QueryCallback callback, float lowerX, float lowerY, float upperX, float upperY) {
 		// FIXME pool QueryCallback?
 		aabb.lowerBound.set(lowerX, lowerY);
@@ -280,13 +280,13 @@ public final class World implements Disposable {
 			}
 		}, aabb);
 	}
-
+	
+	ArrayList<Contact> contacts = new ArrayList<Contact>();
+	
 	/** Returns the list of {@link Contact} instances produced by the last call to {@link #step(float, int, int)}. Note that the
 	 * returned list will have O(1) access times when using indexing. contacts are created and destroyed in the middle of a time
 	 * step. Use {@link ContactListener} to avoid missing contacts
 	 * @return the contact list */
-	ArrayList<Contact> contacts = new ArrayList<Contact>();
-
 	public List<Contact> getContactList () {
 		// FIXME pool contacts
 		org.jbox2d.dynamics.contacts.Contact contactList = world.getContactList();
@@ -323,15 +323,15 @@ public final class World implements Disposable {
 		return Settings.velocityThreshold;
 	}
 
-	/** Ray-cast the world for all fixtures in the path of the ray. The ray-cast ignores shapes that contain the starting point.
-	 * @param callback a user implemented callback class.
-	 * @param point1 the ray starting point
-	 * @param point2 the ray ending point */
 	Vec2 point1 = new Vec2();
 	Vec2 point2 = new Vec2();
 	Vector2 point = new Vector2();
 	Vector2 normal = new Vector2();
-
+	
+	/** Ray-cast the world for all fixtures in the path of the ray. The ray-cast ignores shapes that contain the starting point.
+	 * @param callback a user implemented callback class.
+	 * @param point1 the ray starting point
+	 * @param point2 the ray ending point */
 	public void rayCast (final RayCastCallback callback, Vector2 point1, Vector2 point2) {
 		// FIXME pool RayCastCallback?
 		world.raycast(new org.jbox2d.callbacks.RayCastCallback() {

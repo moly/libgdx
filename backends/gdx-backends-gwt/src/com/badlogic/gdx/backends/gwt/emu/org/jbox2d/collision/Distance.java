@@ -36,7 +36,7 @@ import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 
 // updated to rev 100
-/** This is non-static for faster pooling. To get an instance, use the {@link SingletonPool}, don't construct a distance object.
+/** This is non-static for faster pooling.
  * 
  * @author Daniel Murphy */
 public class Distance {
@@ -53,6 +53,8 @@ public class Distance {
 		public float a; // barycentric coordinate for closest point
 		public int indexA; // wA index
 		public int indexB; // wB index
+
+		public SimplexVertex () {}
 
 		public void set (SimplexVertex sv) {
 			wA.set(sv.wA);
@@ -101,6 +103,8 @@ public class Distance {
 		public final SimplexVertex m_v3 = new SimplexVertex();
 		public final SimplexVertex vertices[] = {m_v1, m_v2, m_v3};
 		public int m_count;
+
+		public Simplex () {}
 
 		public void readCache (SimplexCache cache, DistanceProxy proxyA, Transform transformA, DistanceProxy proxyB,
 			Transform transformB) {
@@ -189,9 +193,7 @@ public class Distance {
 		private final Vec2 case2 = new Vec2();
 		private final Vec2 case22 = new Vec2();
 
-		/** this returns pooled objects. don't keep or modify them
-		 * 
-		 * @return */
+		/** this returns pooled objects. don't keep or modify them */
 		public void getClosestPoint (final Vec2 out) {
 			switch (m_count) {
 			case 0:
@@ -522,8 +524,7 @@ public class Distance {
 
 		/** Get the supporting vertex index in the given direction.
 		 * 
-		 * @param d
-		 * @return */
+		 * @param d */
 		public final int getSupport (final Vec2 d) {
 			int bestIndex = 0;
 			float bestValue = Vec2.dot(m_vertices[0], d);
@@ -540,8 +541,7 @@ public class Distance {
 
 		/** Get the supporting vertex in the given direction.
 		 * 
-		 * @param d
-		 * @return */
+		 * @param d */
 		public final Vec2 getSupportVertex (final Vec2 d) {
 			int bestIndex = 0;
 			float bestValue = Vec2.dot(m_vertices[0], d);
@@ -556,17 +556,14 @@ public class Distance {
 			return m_vertices[bestIndex];
 		}
 
-		/** Get the vertex count.
-		 * 
-		 * @return */
+		/** Get the vertex count. */
 		public final int getVertexCount () {
 			return m_count;
 		}
 
 		/** Get a vertex by index. Used by Distance.
 		 * 
-		 * @param index
-		 * @return */
+		 * @param index */
 		public final Vec2 getVertex (int index) {
 			assert (0 <= index && index < m_count);
 			return m_vertices[index];

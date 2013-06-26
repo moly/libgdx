@@ -30,8 +30,7 @@ package org.jbox2d.pooling;
  * @param <E> */
 public interface IOrderedStack<E> {
 
-	/** Returns the next object in the pool
-	 * @return */
+	/** Returns the next object in the pool */
 	public E pop ();
 
 	/** Returns the next 'argNum' objects in the pool in an array

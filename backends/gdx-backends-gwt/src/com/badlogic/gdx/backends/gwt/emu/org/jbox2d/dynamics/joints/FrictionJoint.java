@@ -120,7 +120,7 @@ public class FrictionJoint extends Joint {
 		return m_maxTorque;
 	}
 
-	/** @see org.jbox2d.dynamics.joints.Joint#initVelocityConstraints(org.jbox2d.dynamics.TimeStep) */
+	/** @see org.jbox2d.dynamics.joints.Joint#initVelocityConstraints(org.jbox2d.dynamics.SolverData) */
 	@Override
 	public void initVelocityConstraints (final SolverData data) {
 		m_indexA = m_bodyA.m_islandIndex;

@@ -48,9 +48,7 @@ public abstract class Shape {
 		return m_type;
 	}
 
-	/** The radius of the underlying shape. This can refer to different things depending on the shape implementation
-	 * 
-	 * @return */
+	/** The radius of the underlying shape. This can refer to different things depending on the shape implementation */
 	public float getRadius () {
 		return m_radius;
 	}
@@ -62,9 +60,7 @@ public abstract class Shape {
 		this.m_radius = radius;
 	}
 
-	/** Get the number of child primitives
-	 * 
-	 * @return */
+	/** Get the number of child primitives */
 	public abstract int getChildCount ();
 
 	/** Test a point for containment in this shape. This only works for convex shapes.
@@ -75,17 +71,17 @@ public abstract class Shape {
 
 	/** Cast a ray against a child shape.
 	 * 
-	 * @param argOutput the ray-cast results.
-	 * @param argInput the ray-cast input parameters.
-	 * @param argTransform the transform to be applied to the shape.
-	 * @param argChildIndex the child shape index
+	 * @param output the ray-cast results.
+	 * @param input the ray-cast input parameters.
+	 * @param transform the transform to be applied to the shape.
+	 * @param childIndex the child shape index
 	 * @return if hit */
 	public abstract boolean raycast (RayCastOutput output, RayCastInput input, Transform transform, int childIndex);
 
 	/** Given a transform, compute the associated axis aligned bounding box for a child shape.
 	 * 
-	 * @param argAabb returns the axis aligned box.
-	 * @param argXf the world transform of the shape. */
+	 * @param aabb returns the axis aligned box.
+	 * @param xf the world transform of the shape. */
 	public abstract void computeAABB (final AABB aabb, final Transform xf, int childIndex);
 
 	/** Compute the mass properties of this shape using its dimensions and density. The inertia tensor is computed about the local

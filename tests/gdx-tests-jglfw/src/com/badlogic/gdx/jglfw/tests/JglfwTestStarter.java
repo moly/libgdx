@@ -28,7 +28,6 @@ import com.badlogic.gdx.tests.utils.GdxTests;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,6 +46,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
 public class JglfwTestStarter extends JFrame {
+	
+	private static final long serialVersionUID = -2658508075104337090L;
+
 	public JglfwTestStarter () throws HeadlessException {
 		super("JGLFW libgdx Tests");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,6 +76,9 @@ public class JglfwTestStarter extends JFrame {
 	}
 
 	class TestList extends JPanel {
+		
+		private static final long serialVersionUID = 1477249762154055583L;
+
 		public TestList () {
 			setLayout(new BorderLayout());
 

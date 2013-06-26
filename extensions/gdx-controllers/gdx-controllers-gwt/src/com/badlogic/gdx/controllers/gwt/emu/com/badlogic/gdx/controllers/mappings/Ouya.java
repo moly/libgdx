@@ -1,7 +1,5 @@
 package com.badlogic.gdx.controllers.mappings;
 
-import java.lang.reflect.Field;
-
 import com.badlogic.gdx.controllers.Controller;
 
 /**

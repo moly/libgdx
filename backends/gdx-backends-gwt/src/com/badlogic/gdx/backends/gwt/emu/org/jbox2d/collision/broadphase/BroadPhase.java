@@ -78,8 +78,7 @@ public class BroadPhase implements TreeCallback {
 	/** Create a proxy with an initial AABB. Pairs are not reported until updatePairs is called.
 	 * 
 	 * @param aabb
-	 * @param userData
-	 * @return */
+	 * @param userData */
 	public final int createProxy (final AABB aabb, Object userData) {
 		int proxyId = m_tree.createProxy(aabb, userData);
 		++m_proxyCount;
@@ -132,9 +131,7 @@ public class BroadPhase implements TreeCallback {
 		return true;
 	}
 
-	/** Get the number of proxies.
-	 * 
-	 * @return */
+	/** Get the number of proxies. */
 	public final int getProxyCount () {
 		return m_proxyCount;
 	}
@@ -218,9 +215,7 @@ public class BroadPhase implements TreeCallback {
 		m_tree.raycast(callback, input);
 	}
 
-	/** Get the height of the embedded tree.
-	 * 
-	 * @return */
+	/** Get the height of the embedded tree. */
 	public final int getTreeHeight () {
 		return m_tree.computeHeight();
 	}

@@ -28,7 +28,7 @@ import com.badlogic.gdx.utils.async.AsyncResult;
 import com.badlogic.gdx.utils.async.AsyncTask;
 
 /** Responsible for loading an asset through an {@link AssetLoader} based on an {@link AssetDescriptor}. Implements
- * {@link Callable} and is used with an {@link ExecutorService threadpool} to load parts of an asset asynchronously if the asset is
+ * {@link AsyncTask} and is used with an {@link AsyncExecutor executor} to load parts of an asset asynchronously if the asset is
  * loaded with an {@link AsynchronousAssetLoader}.
  * 
  * @author mzechner */

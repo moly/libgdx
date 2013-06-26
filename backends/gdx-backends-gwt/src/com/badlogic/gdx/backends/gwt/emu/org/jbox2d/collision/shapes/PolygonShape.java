@@ -369,17 +369,14 @@ public class PolygonShape extends Shape {
 	 * i; bestValue = value; } } return m_vertices[bestIndex]; }
 	 */
 
-	/** Get the vertex count.
-	 * 
-	 * @return */
+	/** Get the vertex count. */
 	public final int getVertexCount () {
 		return m_count;
 	}
 
 	/** Get a vertex by index.
 	 * 
-	 * @param index
-	 * @return */
+	 * @param index */
 	public final Vec2 getVertex (final int index) {
 		assert (0 <= index && index < m_count);
 		return m_vertices[index];
@@ -577,9 +574,7 @@ public class PolygonShape extends Shape {
 		massData.I += massData.mass * (Vec2.dot(massData.center, massData.center));
 	}
 
-	/** Validate convexity. This is a very time consuming operation.
-	 * 
-	 * @return */
+	/** Validate convexity. This is a very time consuming operation. */
 	public boolean validate () {
 		for (int i = 0; i < m_count; ++i) {
 			int i1 = i;

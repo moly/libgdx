@@ -56,7 +56,10 @@ public class BugfixTest extends Game {
 
 	private class ScreenTest implements Screen {
 
-		private Stage stage;
+		protected Stage stage;
+
+		protected ScreenTest () {
+		}
 
 		@Override
 		public void render (float delta) {

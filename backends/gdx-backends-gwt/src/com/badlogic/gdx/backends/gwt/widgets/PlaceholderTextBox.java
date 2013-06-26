@@ -27,15 +27,13 @@ public class PlaceholderTextBox extends TextBox {
 	}
 
 	/** Gets the current placeholder text for the text box.
-	 * 
 	 * @return the current placeholder text */
 	public String getPlaceholder () {
 		return placeholder;
 	}
 
 	/** Sets the placeholder text displayed in the text box.
-	 * 
-	 * @param placeholder the placeholder text */
+	 * @param text the placeholder text */
 	public void setPlaceholder (String text) {
 		placeholder = (text != null ? text : "");
 		getElement().setPropertyString("placeholder", placeholder);
