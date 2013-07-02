@@ -20,24 +20,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.backends.gwt.soundmanager2.SMSound;
-import com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions;
+import com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SMSoundCallback;
+import com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions;
 import com.badlogic.gdx.backends.gwt.soundmanager2.SoundManager;
-import com.badlogic.gdx.backends.gwt.soundmanager2.SoundManager.SoundManagerCallback;
 import com.badlogic.gdx.files.FileHandle;
 
-public class GwtMusic implements Music, SoundManagerCallback {
+public class GwtMusic implements Music, SMSoundCallback {
 	private boolean isPlaying = false;
 	private boolean isLooping = false;
 	private SMSound sound;
 	private float volume = 1f;
 	private float pan = 0f;
-	private SoundOptions soundOptions;
+	private SMSoundOptions soundOptions;
 	protected OnCompletionListener onCompletionListener;
 
 	public GwtMusic (FileHandle file) {
 		String url = ((GwtApplication)Gdx.app).getBaseUrl() + file.path();
-		sound = new SMSound(SoundManager.createSound(url));
-		soundOptions = new SoundOptions();
+		sound = SoundManager.createSound(url);
+		soundOptions = new SMSoundOptions();
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class GwtMusic implements Music, SoundManagerCallback {
 		if (isPlaying()) return;
 		soundOptions.volume = (int)(volume * 100);
 		soundOptions.pan = (int)(pan * 100);
-		soundOptions.loops = 1;
-		soundOptions.offset = 0;
+		soundOptions.loops = isLooping ? Integer.MAX_VALUE : 1;
+		soundOptions.from = 0;
 		soundOptions.callback = this;
 		sound.play(soundOptions);
 		isPlaying = true;
@@ -115,20 +115,13 @@ public class GwtMusic implements Music, SoundManagerCallback {
 	}
 
 	@Override
-	public void loaded (SMSound sound) {
-		
-	}
-
-	@Override
-	public void error (SMSound sound) {
-		
-	}
-
-	@Override
-	public void onfinish (SMSound sound) {
-		if (isLooping)
+	public void onfinish () {
+		if (sound.loops() == 1 && isLooping)
 			play();
-		else if (onCompletionListener != null)
+		else if (!isLooping)
+			stop();
+			
+		if (onCompletionListener != null)
 			onCompletionListener.onCompletion(this);
 	}
 }

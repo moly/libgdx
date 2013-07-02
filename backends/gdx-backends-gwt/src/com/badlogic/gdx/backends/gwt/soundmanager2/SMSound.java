@@ -24,13 +24,17 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class SMSound {
 	
+	public interface SMSoundCallback {
+		public void onfinish ();
+	}
+	
 	/** Constants for play state. */
 	public static final int STOPPED = 0;
 	public static final int PLAYING = 1;
 	
 	private JavaScriptObject jsSound;
 	
-	public SMSound (JavaScriptObject jsSound) {
+	protected SMSound (JavaScriptObject jsSound) {
 		this.jsSound = jsSound;
 	}
 
@@ -57,22 +61,26 @@ public class SMSound {
 	}-*/;
 	
 	/** Starts playing the given sound. */
-	public native final void play (SoundOptions options) /*-{
+	public native final void play (SMSoundOptions options) /*-{
 		this.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound::jsSound.play(
 			{
-				volume: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions::volume,
-				pan: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions::pan,
-				loops: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions::loops,
-				from: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions::offset,
-				onfinish: function(){
-					var callback = options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions::callback;
-					if(callback != null)
-					{
-						callback.@com.badlogic.gdx.backends.gwt.soundmanager2.SoundManager.SoundManagerCallback::onfinish(Lcom/badlogic/gdx/backends/gwt/soundmanager2/SMSound;)(this);
+				volume: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions::volume,
+				pan: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions::pan,
+				loops: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions::loops,
+				from: options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions::from,
+				onfinish: function() {
+					var callback = options.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions::callback;
+					if(callback != null) {
+						callback.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SMSoundCallback::onfinish()();
 					}
 				}
 			}
 		);
+	}-*/;
+	
+	/** Starts playing the given sound. */
+	public native final void play () /*-{
+		this.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound::jsSound.play();
 	}-*/;
 
 	/** Resumes the currently-paused sound. Does not affect currently-playing sounds. */
@@ -118,13 +126,8 @@ public class SMSound {
 		return this.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound::jsSound.playState;
 	}-*/;
 	
-	public static class SoundOptions {
-	public SoundOptions(){};
-	public int volume = 100;
-	public int pan = 0;
-	public int loops = 1;
-	public int offset = 0;
-	public SoundManagerCallback callback = null;
-	}
+	/** Number of times to loop the sound. */
+	public native final int loops () /*-{
+		return this.@com.badlogic.gdx.backends.gwt.soundmanager2.SMSound::jsSound.loops;
+	}-*/;
 }
-

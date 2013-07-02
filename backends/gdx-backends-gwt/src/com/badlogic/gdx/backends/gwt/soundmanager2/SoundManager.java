@@ -21,11 +21,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class SoundManager {
 	
 	public interface SoundManagerCallback {
-		public void loaded (SMSound sound);
-
-		public void error (SMSound sound);
-		
-		public void onfinish (SMSound sound);
+		public void onready ();
+		public void ontimeout (String status, String errorType);
 	}
 
 	public static final native SoundManager getInstance () /*-{
@@ -63,8 +60,9 @@ public class SoundManager {
 	/** Creates a new sound object from the supplied url.
 	 * @param url the location of the sound file.
 	 * @return the created sound object. */
-	public static native JavaScriptObject createSound (String url) /*-{
-		return $wnd.soundManager.createSound({url: url});
+	public static native SMSound createSound (String url) /*-{
+		var jsSound = $wnd.soundManager.createSound({url: url});
+		return @com.badlogic.gdx.backends.gwt.soundmanager2.SMSound::new(Lcom/google/gwt/core/client/JavaScriptObject;)(jsSound);
 	}-*/;
 
 	public static native void reboot () /*-{

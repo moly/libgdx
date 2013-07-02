@@ -19,9 +19,12 @@ package com.badlogic.gdx.backends.gwt;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.gwt.soundmanager2.SMSound;
-import com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SoundOptions;
+import com.badlogic.gdx.backends.gwt.soundmanager2.SMSound.SMSoundCallback;
+import com.badlogic.gdx.backends.gwt.soundmanager2.SMSoundOptions;
 import com.badlogic.gdx.backends.gwt.soundmanager2.SoundManager;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.BooleanArray;
 
 public class GwtSound implements Sound {
 	
@@ -29,19 +32,16 @@ public class GwtSound implements Sound {
 	private static final int MAX_SOUNDS = 8;
 	
 	/** Our sounds. */
-	private SMSound[] sounds;
-	/** The next player we think should be available for play - we circling through them to find a free one. */
+	protected GwtMusic[] sounds;
+	/** The next player we think should be available for play - we circle through them to find a free one. */
 	private int soundIndex;
 	/** The path to the sound file. */
-	private String soundURL;
-	
-	private SoundOptions soundOptions;
+	private FileHandle soundFile;
 	
 	public GwtSound (FileHandle file) {
-		String url = ((GwtApplication)Gdx.app).getBaseUrl() + file.path();
-		sounds = new SMSound[MAX_SOUNDS];
-		sounds[0] = new SMSound(SoundManager.createSound(url));
-		soundOptions = new SoundOptions();
+		soundFile = file;
+		sounds = new GwtMusic[MAX_SOUNDS];
+		sounds[0] = new GwtMusic(file);
 		soundIndex = 0;
 	}
 	
@@ -50,7 +50,7 @@ public class GwtSound implements Sound {
 	private int findAvailableSound() {
 		for (int i = 0; i < sounds.length; i++) {
 			int index = (soundIndex + i) % sounds.length;
-			if (sounds[index] == null || sounds[index].playState() == 0) {
+			if (sounds[index] == null || !sounds[index].isPlaying()) {
 				// point to the next likely free player
 				soundIndex = (index + 1) % sounds.length; 
 				
@@ -67,49 +67,47 @@ public class GwtSound implements Sound {
 
 	@Override
 	public long play () {
-		return play(1.0f, 1.0f, 0.0f, false, 0);
+		return play(1.0f, 1.0f, 0.0f, false);
 	}
 
 	@Override
 	public long play (float volume) {
-		return play(volume, 1.0f, 0.0f, false, 0);
+		return play(volume, 1.0f, 0.0f, false);
 	}
 
 	@Override
 	public long play (float volume, float pitch, float pan) {
-		return play(volume, pitch, pan, false, 0);
+		return play(volume, pitch, pan, false);
 	}
 	
-	private long play (float volume, float pitch, float pan, boolean loop, int offset) {
+	private long play (float volume, float pitch, float pan, boolean loop) {
 		int soundId = findAvailableSound();
-		if (soundId >= 0)
-		{
-			SMSound sound = sounds[soundId];
-			if (sound == null)
-				sound = new SMSound(SoundManager.createSound(soundURL));
+		if (soundId >= 0) {
+			GwtMusic sound = sounds[soundId];
+			if (sound == null) {
+				sound = new GwtMusic(soundFile);
+			}
 			sound.stop();
-			soundOptions.volume = (int)(volume * 100);
-			soundOptions.pan = (int)(pan * 100);
-			soundOptions.loops = loop ? Integer.MAX_VALUE : 1;
-			soundOptions.offset = offset;
-			sound.play(soundOptions);
+			sound.setPan(pan, volume);
+			sound.setLooping(loop);
+			sound.play();
 		}
 		return soundId;
 	}
 
 	@Override
 	public long loop () {
-		return play(1.0f, 1.0f, 0.0f, true, 0);
+		return play(1.0f, 1.0f, 0.0f, true);
 	}
 
 	@Override
 	public long loop (float volume) {
-		return play(volume, 1.0f, 0.0f, true, 0);
+		return play(volume, 1.0f, 0.0f, true);
 	}
 	
 	@Override
 	public long loop (float volume, float pitch, float pan) {
-		return play(volume, pitch, pan, true, 0);
+		return play(volume, pitch, pan, true);
 	}
 	
 	@Override
@@ -125,7 +123,7 @@ public class GwtSound implements Sound {
 		stop();
 		for (int i = 0; i < sounds.length; i++) {
 			if (sounds[i] != null)
-			sounds[i].destruct();
+			sounds[i].dispose();
 		}
 		sounds = null;
 	}
@@ -139,19 +137,7 @@ public class GwtSound implements Sound {
 	@Override
 	public void setLooping (long soundId, boolean looping) {
 		if (soundId >= 0 && sounds[(int)soundId] != null)
-		{
-			SMSound sound = sounds[(int)soundId];
-			if (sound.playState() == SMSound.PLAYING)
-			{
-				int offset = sound.getPosition();
-				sound.stop();
-				soundOptions.loops = looping ? Integer.MAX_VALUE : 1;
-				soundOptions.volume = sound.getVolume();
-				soundOptions.pan = sound.getPan();
-				soundOptions.offset = offset;
-				sound.play(soundOptions);
-			}
-		}
+			sounds[(int)soundId].setLooping(looping);
 	}
 
 	@Override
@@ -162,30 +148,14 @@ public class GwtSound implements Sound {
 	@Override
 	public void setVolume (long soundId, float volume) {
 		if (soundId >= 0 && sounds[(int)soundId] != null)
-			sounds[(int)soundId].setVolume((int)(volume * 100));
-	}
-	
-	public float getVolume (long soundId) {
-		if (soundId >= 0 && sounds[(int)soundId] != null)
-			return sounds[(int)soundId].getVolume() / 100.f;
-		else 
-			return 0;
+			sounds[(int)soundId].setVolume(volume);
 	}
 
 	@Override
 	public void setPan (long soundId, float pan, float volume) {
-		if (soundId >= 0 && sounds[(int)soundId] != null)
-		{
-			sounds[(int)soundId].setVolume((int)(volume * 100));
-			sounds[(int)soundId].setPan((int)(pan * 100));
+		if (soundId >= 0 && sounds[(int)soundId] != null) {
+			sounds[(int)soundId].setPan(pan, volume);
 		}
-	}
-	
-	public float getPan (long soundId) {
-		if (soundId >= 0 && sounds[(int)soundId] != null)
-			return sounds[(int)soundId].getPan() / 100.f;
-		else 
-			return 0;
 	}
 
 	@Override
