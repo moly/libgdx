@@ -38,6 +38,7 @@ public class GwtMusic implements Music, SMSoundCallback {
 		String url = ((GwtApplication)Gdx.app).getBaseUrl() + file.path();
 		sound = SoundManager.createSound(url);
 		soundOptions = new SMSoundOptions();
+		soundOptions.callback = this;
 	}
 
 	@Override
@@ -45,9 +46,8 @@ public class GwtMusic implements Music, SMSoundCallback {
 		if (isPlaying()) return;
 		soundOptions.volume = (int)(volume * 100);
 		soundOptions.pan = (int)(pan * 100);
-		soundOptions.loops = isLooping ? Integer.MAX_VALUE : 1;
+		soundOptions.loops = 1;
 		soundOptions.from = 0;
-		soundOptions.callback = this;
 		sound.play(soundOptions);
 		isPlaying = true;
 	}
@@ -116,10 +116,8 @@ public class GwtMusic implements Music, SMSoundCallback {
 
 	@Override
 	public void onfinish () {
-		if (sound.loops() == 1 && isLooping)
+		if (isLooping)
 			play();
-		else if (!isLooping)
-			stop();
 			
 		if (onCompletionListener != null)
 			onCompletionListener.onCompletion(this);

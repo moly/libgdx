@@ -83,10 +83,11 @@ public class GwtSound implements Sound {
 	private long play (float volume, float pitch, float pan, boolean loop) {
 		int soundId = findAvailableSound();
 		if (soundId >= 0) {
-			GwtMusic sound = sounds[soundId];
-			if (sound == null) {
-				sound = new GwtMusic(soundFile);
+			GwtMusic sound;
+			if (sounds[soundId] == null) {
+				sounds[soundId] = new GwtMusic(soundFile);
 			}
+			sound = sounds[soundId];
 			sound.stop();
 			sound.setPan(pan, volume);
 			sound.setLooping(loop);
@@ -123,7 +124,7 @@ public class GwtSound implements Sound {
 		stop();
 		for (int i = 0; i < sounds.length; i++) {
 			if (sounds[i] != null)
-			sounds[i].dispose();
+				sounds[i].dispose();
 		}
 		sounds = null;
 	}
